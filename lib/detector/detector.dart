@@ -23,8 +23,9 @@ class Detector {
   final TextStyle? textStyle;
   final TextStyle? decoratedStyle;
   final bool? decorateAtSign;
+  final bool allowEmoji;
 
-  Detector({this.textStyle, this.decoratedStyle, this.decorateAtSign = false});
+  Detector({this.textStyle, this.decoratedStyle, this.decorateAtSign = false, this.allowEmoji = false});
 
   List<Detection> _getSourceDetections(
       List<RegExpMatch> tags, String copiedText) {
@@ -127,11 +128,14 @@ class Detector {
 
     final sourceDetections = _getSourceDetections(tags, copiedText);
 
-    final emojiFilteredResult = _getEmojiFilteredDetections(
-        copiedText: copiedText,
-        emojiMatches: emojiMatches,
-        source: sourceDetections);
-
-    return emojiFilteredResult;
+    if (allowEmoji) {
+      return sourceDetections;
+    } else {
+      final emojiFilteredResult = _getEmojiFilteredDetections(
+          copiedText: copiedText,
+          emojiMatches: emojiMatches,
+          source: sourceDetections);
+      return emojiFilteredResult;
+    }
   }
 }

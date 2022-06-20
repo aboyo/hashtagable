@@ -385,6 +385,7 @@ class HashTagTextField extends StatefulWidget {
     this.scrollPhysics,
     this.autofillHints,
     this.restorationId,
+    this.allowEmoji = false,
   })  : smartDashesType = smartDashesType ??
             (obscureText ? SmartDashesType.disabled : SmartDashesType.enabled),
         smartQuotesType = smartQuotesType ??
@@ -810,6 +811,8 @@ class HashTagTextField extends StatefulWidget {
   ///    Flutter.
   /// {@endtemplate}
   final String? restorationId;
+
+  final bool allowEmoji;
 
   @override
   _HashTagTextFieldState createState() => _HashTagTextFieldState();
@@ -1340,6 +1343,7 @@ class _HashTagTextFieldState extends State<HashTagTextField>
           autofillHints: widget.autofillHints,
           autocorrectionTextRectColor: autocorrectionTextRectColor,
           restorationId: 'editable',
+          allowEmoji: widget.allowEmoji,
         ),
       ),
     );
