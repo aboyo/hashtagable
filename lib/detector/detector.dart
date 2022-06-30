@@ -1,5 +1,7 @@
 import 'package:flutter/cupertino.dart';
 
+import 'package:emoji_regex/emoji_regex.dart';
+
 import 'hashtag_regular_expression.dart';
 
 /// DataModel to explain the unit of word in detection system
@@ -99,8 +101,7 @@ class Detector {
   /// Return the list of decorations with tagged and untagged text
   List<Detection> getDetections(String copiedText) {
     /// Text to change emoji into replacement text
-    final fullWidthRegExp = RegExp(
-        r'(\u00a9|\u00ae|[\u2000-\u3300]|\ud83c[\ud000-\udfff]|\ud83d[\ud000-\udfff]|\ud83e[\ud000-\udfff])');
+    final fullWidthRegExp = emojiRegexText();
 
     final fullWidthRegExpMatches =
         fullWidthRegExp.allMatches(copiedText).toList();
@@ -110,7 +111,7 @@ class Detector {
         .where((match) => (!tokenRegExp
             .hasMatch(copiedText.substring(match.start, match.end))))
         .toList();
-
+    
     /// This is to avoid the error caused by 'regExp' which counts the emoji's length 1.
     emojiMatches.forEach((emojiMatch) {
       final emojiLength = emojiMatch.group(0)!.length;
